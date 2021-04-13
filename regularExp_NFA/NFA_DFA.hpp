@@ -11,10 +11,10 @@
 #include "Header.h"
 #include "NFAConstructor.hpp"
 struct DFAEdge{
-    int src_sta = -1;
+    set<int> src_sta;
     char trans = '$';
-    int des_sta = -1;
-    DFAEdge(int s, char t, int d):src_sta(s), trans(t), des_sta(d){}
+    set<int> des_sta;
+    DFAEdge(set<int> s, char t, set<int> d):src_sta(s), trans(t), des_sta(d){}
 };
 
 class DFAConstructor

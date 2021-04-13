@@ -156,16 +156,6 @@ void NFAConstrctor::createNFA()
             top2->next->e_closure_set.push_back(top1->head->num);
             NFA_stk.push(top1);
             
-            
-//            NFA n1, n2, n;                /*定义一个新的NFA n*/
-//                    n2 = NfaStack.top();                /*从栈中弹出两个NFA，栈顶为n2，次栈顶为n1*/
-//                    NfaStack.pop();
-//                    n1 = NfaStack.top();
-//                    NfaStack.pop();
-//                    add(n1.tail, n2.head);                /*n1的尾通过ε指向n2的尾*/
-//                    n.head = n1.head;                    /*n的头为n1的头*/
-//                    n.tail = n2.tail;                    /*n的尾为n2的尾*/
-//                    NfaStack.push(n);                    /*最后将新生成的NFA入栈*/
         }
     }
 }

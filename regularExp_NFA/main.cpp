@@ -9,6 +9,8 @@
 #include "NFAConstructor.hpp"
 #include "NFA_DFA.hpp"
 int main(int argc, const char * argv[]) {
+    
+    
 //    string a = "(a*-(b-c)-d)|(e-f*g)";
 //    cout<<"原始正则表达式:"<<a<<endl;
 //    NFAConstrctor myNFAconstructor;
@@ -20,7 +22,8 @@ int main(int argc, const char * argv[]) {
 //    cout<<"NFA"<<endl;
 //    myNFAconstructor.output_NFA();
 
-    string a = "a*-b-c";
+//    string a = "a*-b-c";
+    string a = "a*-b*-c*";
     cout<<"原始正则表达式:"<<a<<endl;
     NFAConstrctor myNFAconstructor;
     myNFAconstructor.read(a);
@@ -29,6 +32,9 @@ int main(int argc, const char * argv[]) {
     myNFAconstructor.output();
     myNFAconstructor.createNFA();
     myNFAconstructor.output_NFA();
+    
+    
+    
     cout<<"DFA:"<<endl;
     DFAConstructor myDFAconstructor(myNFAconstructor.terminal_symbol,myNFAconstructor.node_set);
     myDFAconstructor.construction();
