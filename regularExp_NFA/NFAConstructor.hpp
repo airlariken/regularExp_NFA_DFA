@@ -15,6 +15,8 @@ struct NFANode      //nfa的状态节点
     int num;        //节点编号
     char trans_char = '#';    //转移所接受的符号,默认‘#’
     int next_num = -1;      //下一节点， 默认‘-1’即无转移接受符号
+    bool isEnd = 0;
+    bool isStart = 0;
     vector<int>  e_closure_set;         //存储该节点的e闭包集合
     NFANode(int n, int next_n,char t):num(n),next_num(next_n),trans_char(t){}//有转移接受符号的构造函数
     NFANode(int n):num(n){} //无转移接受符号的构造函数
@@ -38,7 +40,7 @@ private:
     char suffix_char;
     int suffix_pointer = 0;
     
-
+    bool start = 0;
 public:
     void read(string& s){regular_exp = s;}
     void output(){cout<<suffix_exp<<endl;}

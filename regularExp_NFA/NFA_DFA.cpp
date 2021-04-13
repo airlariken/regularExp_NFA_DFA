@@ -113,4 +113,15 @@ void DFAConstructor::output()
         }
         cout<<endl;
     }
+    
+    for (int i = 0; i < NFA_set.size(); ++i) {
+        if (NFA_set[i]->isEnd == 1) {
+            cout<<i<<"是终态"<<endl;
+        }
+    }
+    for (int i = 0; i < NFA_set.size(); ++i) {
+        if (NFA_set[i]->isStart == 1) {
+            cout<<i<<"是初态"<<endl;
+        }
+    }
 }

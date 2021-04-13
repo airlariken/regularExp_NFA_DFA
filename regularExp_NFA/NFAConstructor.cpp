@@ -106,12 +106,17 @@ void NFAConstrctor::createSingleNFA()//遇到符号建立单个NFA
 {
     NFANode *first = new NFANode(NFA_num_cnt,NFA_num_cnt+1,suffix_char);
     NFANode *second = new NFANode(NFA_num_cnt+1);
+    second->isEnd = 1;
     node_set.push_back(first);
     node_set.push_back(second);
     NFA_num_cnt+=2;
     NFAEdge *newEdge = new NFAEdge(first, second);
     NFA_stk.push(newEdge);
     
+    if (start == 0){
+        first->isStart = 1;
+        start = 1;
+    }
 }
 void NFAConstrctor::createNFA()
 {
@@ -134,6 +139,14 @@ void NFAConstrctor::createNFA()
             top->next->e_closure_set.push_back(second->num);//栈顶尾结点用e闭包连接新NFA尾结点
             NFAEdge *newEdge = new NFAEdge(first, second);
             NFA_stk.push(newEdge);
+            //处理终态
+            second->isEnd = 1;
+            top->next->isEnd = 0;
+            //处理初态
+            if (top->head->isStart == 1) {
+                first->isStart = 1;
+                top->head->isStart = 0;
+            }
         }
         else if(suffix_char == '|'){            //处理闭包
             NFANode *first = new NFANode(NFA_num_cnt++);
@@ -148,11 +161,26 @@ void NFAConstrctor::createNFA()
             top2->next->e_closure_set.push_back(second->num);
             NFAEdge *newEdge = new NFAEdge(first, second);
             NFA_stk.push(newEdge);
+            //处理终态
+            top1->next->isEnd = 0;
+            top2->next->isEnd = 0;
+            second->isEnd = 1;
+            //处理初态
+            if (top1->head->isStart==1) {
+                top1->head->isStart=0;
+                first->isStart = 1;
+            }
+            else if(top2->head->isStart==1){
+                top2->head->isStart=0;
+                first->isStart = 1;
+            }
+            
         }
         else if(suffix_char == '-'){            //处理闭包
             NFAEdge *top1 = NFA_stk.top();   NFA_stk.pop();
             NFAEdge *top2 = NFA_stk.top();   NFA_stk.pop();
 //            top1->next->e_closure_set.push_back(top2->head->num);
+            top2->next->isEnd = 0;
             top2->next->e_closure_set.push_back(top1->head->num);
             NFA_stk.push(top1);
             

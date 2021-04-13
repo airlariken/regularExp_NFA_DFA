@@ -23,7 +23,8 @@ int main(int argc, const char * argv[]) {
 //    myNFAconstructor.output_NFA();
 
 //    string a = "a*-b-c";
-    string a = "a*-b*-c*";
+//    string a = "a*-b*-c*";
+    string a = "(a|b*)-c*";
     cout<<"原始正则表达式:"<<a<<endl;
     NFAConstrctor myNFAconstructor;
     myNFAconstructor.read(a);

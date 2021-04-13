@@ -24,7 +24,7 @@ class DFAConstructor
     vector<DFAEdge> dfa;
     set<int> DFA_node;  //节点
     map<set<int>, int> dfa_set;  //用于标记DFA，防止集合重复
-    vector<char> terminal_symbol;
+    vector<char> terminal_symbol;   //终态符
     
     
     vector<vector<int>> dfa_matrix;
