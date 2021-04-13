@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		58B55BC8261DD261004DC599 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58B55BC7261DD261004DC599 /* main.cpp */; };
+		58B55BD1261DD280004DC599 /* NFAConstructor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58B55BCF261DD280004DC599 /* NFAConstructor.cpp */; };
+		58B55C9B2625694C004DC599 /* NFA_DFA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 58B55C992625694C004DC599 /* NFA_DFA.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,11 @@
 /* Begin PBXFileReference section */
 		58B55BC4261DD261004DC599 /* regularExp_NFA */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = regularExp_NFA; sourceTree = BUILT_PRODUCTS_DIR; };
 		58B55BC7261DD261004DC599 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		58B55BCF261DD280004DC599 /* NFAConstructor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NFAConstructor.cpp; sourceTree = "<group>"; };
+		58B55BD0261DD280004DC599 /* NFAConstructor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NFAConstructor.hpp; sourceTree = "<group>"; };
+		58B55C992625694C004DC599 /* NFA_DFA.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NFA_DFA.cpp; sourceTree = "<group>"; };
+		58B55C9A2625694C004DC599 /* NFA_DFA.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = NFA_DFA.hpp; sourceTree = "<group>"; };
+		58B55C9D26256B16004DC599 /* Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Header.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +65,11 @@
 			isa = PBXGroup;
 			children = (
 				58B55BC7261DD261004DC599 /* main.cpp */,
+				58B55BCF261DD280004DC599 /* NFAConstructor.cpp */,
+				58B55BD0261DD280004DC599 /* NFAConstructor.hpp */,
+				58B55C992625694C004DC599 /* NFA_DFA.cpp */,
+				58B55C9A2625694C004DC599 /* NFA_DFA.hpp */,
+				58B55C9D26256B16004DC599 /* Header.h */,
 			);
 			path = regularExp_NFA;
 			sourceTree = "<group>";
@@ -118,6 +130,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				58B55BD1261DD280004DC599 /* NFAConstructor.cpp in Sources */,
+				58B55C9B2625694C004DC599 /* NFA_DFA.cpp in Sources */,
 				58B55BC8261DD261004DC599 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
