@@ -37,7 +37,7 @@ int main(int argc, const char * argv[]) {
     
     
     cout<<"DFA:"<<endl;
-    DFAConstructor myDFAconstructor(myNFAconstructor.terminal_symbol,myNFAconstructor.node_set);
+    DFAConstructor myDFAconstructor(myNFAconstructor.terminal_symbol,myNFAconstructor.node_set, myNFAconstructor.begin_state, myNFAconstructor.end_state);
     myDFAconstructor.construction();
     myDFAconstructor.output();
     return 0;

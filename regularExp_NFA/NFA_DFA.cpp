@@ -51,89 +51,83 @@ void DFAConstructor::construction()
     if (NFA_set.size() == 0)    return;
     queue<set<int>> q;
     
-    set<int> temp;  temp.insert(0);
+    set<int> temp;  temp.insert(begin_state);//放入初态
     set<int> first = e_closure(temp);           //第一个初态做一个e闭包
-    set<int> t = first;
-    for (int src = 0; src < NFA_set.size(); ++src) {                      //子集法
-        t.clear();  t.insert(src);
-        for (int j = 0 ; j < terminal_symbol.size(); ++j) {
-             set<int>tempt = e_closure(move(terminal_symbol[j], t));
-            if (tempt.empty())
-                continue;
-            
-            if (dfa_set.find(tempt) == dfa_set.end()){
-                dfa_set.insert(pair<set<int>, int>(tempt,dfa_num++));//将第一个插入集合
-                DFAEdge temp(t,terminal_symbol[j],tempt);
-                dfa.push_back(temp);
-                q.push(tempt);
-            }
-            else{
-                cout<<"有重复子集"<<endl;
-            }
-        }
-    }
-
+    q.push(first);
+    set<int> t;
     while (!q.empty()) {
         set<int> t = q.front(); q.pop();
+        new_DFA.insert(pair<set<int>, int>(t,dfa_num++));//将第一个插入集合
         for (int j = 0 ; j < terminal_symbol.size(); ++j) {
             set<int>tempt = e_closure(move(terminal_symbol[j], t));
            if (tempt.empty())
                continue;
            
-           if (dfa_set.find(tempt) == dfa_set.end()){
-               dfa_set.insert(pair<set<int>, int>(tempt,dfa_num++));//将第一个插入集合
-               DFAEdge temp(tempt,terminal_symbol[j],t);
+           if (new_DFA.find(tempt) == new_DFA.end()){
+               new_DFA.insert(pair<set<int>, int>(tempt,dfa_num++));//将第一个插入集合
+               DFAEdge temp(t,terminal_symbol[j],tempt);
                dfa.push_back(temp);
 
                q.push(tempt);
            }
            else{
-               cout<<"有重复子集"<<endl;
-               map<set<int>, int>::iterator it = dfa_set.find(tempt);
+//               cout<<"有重复子集"<<endl;
+               map<set<int>, int>::iterator it = new_DFA.find(tempt);
                set<int> x = it->first;
-               DFAEdge temp(t,terminal_symbol[j],x);
+               DFAEdge temp(t,terminal_symbol[j],tempt);
                dfa.push_back(temp);
            }
-    }
+        }
     }
 
 }
-void DFAConstructor::output()
+void DFAConstructor::output()//输出NFA集合的转换，也存好了对应DFA的转换
 {
     for (int i = 0; i< dfa.size(); ++i) {
-        if( new_DFA.find(dfa[i].src_sta) == new_DFA.end())//没有则插入
+        auto fi = new_DFA.find(dfa[i].src_sta);
+        if( fi == new_DFA.end()) {//没有则插入
             new_DFA.insert(pair<set<int>, int>(dfa[i].src_sta, new_DFA.size()));
-        if( new_DFA.find(dfa[i].des_sta) == new_DFA.end())//没有则插入
+            dfa[i].new_src_num = (int)new_DFA.size()-1;
+        }
+        else
+            dfa[i].new_src_num = fi->second;
+        fi = new_DFA.find(dfa[i].des_sta);
+        if( fi == new_DFA.end()) {//没有则插入
             new_DFA.insert(pair<set<int>, int>(dfa[i].des_sta, new_DFA.size()));
+            dfa[i].new_des_num = (int)new_DFA.size()-1;
+        }
+        else
+            dfa[i].new_des_num = fi->second;
         
         
-        for(set<int>::iterator it = dfa[i].src_sta.begin(); it != dfa[i].src_sta.end(); ++it){
-//            auto it2 = new_DFA.find(dfa[i].src_sta);
-//            cout<<it2->second<<',';
-            cout<<*it<<',';
-        }
+//        for(set<int>::iterator it = dfa[i].src_sta.begin(); it != dfa[i].src_sta.end(); ++it){
+////            auto it2 = new_DFA.find(dfa[i].src_sta);
+////            cout<<it2->second<<',';
+//            cout<<*it<<',';
+//        }
 
-        cout<<'\t'<<dfa[i].trans<<'\t';
-        for(set<int>::iterator it = dfa[i].des_sta.begin(); it != dfa[i].des_sta.end(); ++it){
-//            it2 = new_DFA.find(dfa[i].des_sta);
-//            cout<<it2->second<<',';
-            cout<<*it<<',';
-        }
-
+//        cout<<'\t'<<dfa[i].trans<<'\t';
+//        for(set<int>::iterator it = dfa[i].des_sta.begin(); it != dfa[i].des_sta.end(); ++it){
+////            it2 = new_DFA.find(dfa[i].des_sta);
+////            cout<<it2->second<<',';
+//            cout<<*it<<',';
+//        }
+        cout<<"<"<<dfa[i].new_src_num<<">"<<"->'"<<dfa[i].trans<<"'->"<<"<"<<dfa[i].new_des_num<<">";
         cout<<endl;
     }
     
-    for (int i = 0; i < NFA_set.size(); ++i) {
-        if (NFA_set[i]->isEnd == 1) {
-            cout<<i<<"是终态"<<endl;
-        }
-    }
+//    for (int i = 0; i < NFA_set.size(); ++i) {
+//        if (NFA_set[i]->isEnd == 1) {
+//            cout<<i<<"是终态"<<endl;
+//        }
+//    }
+    
 //    for (int i = 0; i < NFA_set.size(); ++i) {
 //        if (NFA_set[i]->isStart == 1) {
 //            cout<<i<<"是初态"<<endl;
 //        }
 //    }
-    
+    //改成new_DFA
     for (auto it = new_DFA.begin(); it != new_DFA.end(); it++) {
         cout<< it->second<<'\t';
         set<int> t = it->first;                             //输出新下标

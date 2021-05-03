@@ -185,8 +185,8 @@ void NFAConstrctor::createNFA()
     }
     
     auto i = NFA_stk.top();      NFA_stk.pop();
-    cout<<"初态"<<i->head->num<<endl;
-    cout<<"终态"<<i->next->num<<endl;
+    cout<<"初态"<<i->head->num<<endl;     begin_state = i->head->num;
+    cout<<"终态"<<i->next->num<<endl;     end_state = i->next->num;
 }
 void NFAConstrctor::output_NFA()
 {
