@@ -17,6 +17,7 @@ struct DFAEdge{
     DFAEdge(set<int> s, char t, set<int> d):src_sta(s), trans(t), des_sta(d){}
     int new_src_num;//用于标记新集合名字
     int new_des_num;//用于标记新集合名字通过trans后的集合名字
+    bool is_end_state;//标记是否为终态
 };
 
 class DFAConstructor
@@ -27,7 +28,6 @@ class DFAConstructor
     vector<NFANode*> NFA_set;
     vector<DFAEdge> dfa;
     set<int> DFA_node;  //节点
-//    map<set<int>, int> dfa_set;  //用于标记DFA，防止集合重复
     vector<char> terminal_symbol;   //终态符
     
     map<set<int>, int> new_DFA;//重新命名后的DFA集合,名字为map第二个参数(用于标记DFA，防止集合重复)
@@ -40,5 +40,11 @@ public:
     set<int> move(char t, set<int> T);
     void construction();
     void output();
+    
+    
+    //MiniDFA接口
+    
+    map<char, int>trans_to_index;
+    vector<vector<int>> DFAmatrix;
 };
 #endif /* NFA_DFA_hpp */

@@ -118,12 +118,7 @@ void NFAConstrctor::createNFA()
 {
 
     while (get_suffix_char()==true) {
-        if (suffix_char <= 'z' &&suffix_char >= 'a') {
-            terminal_symbol.push_back(suffix_char);//放入终结符集合中
-            createSingleNFA();
-            continue;
-        }
-        else if(suffix_char == '*'){            //处理闭包
+        if(suffix_char == '*'){            //处理闭包
             NFANode *first = new NFANode(NFA_num_cnt++);
             NFANode *second = new NFANode(NFA_num_cnt++);
             node_set.push_back(first);
@@ -138,11 +133,6 @@ void NFAConstrctor::createNFA()
             //处理终态
             second->isEnd = 1;
             top->next->isEnd = 0;
-//            //处理初态
-//            if (top->head->isStart == 1) {
-//                first->isStart = 1;
-//                top->head->isStart = 0;
-//            }
         }
         else if(suffix_char == '|'){            //处理闭包
             NFANode *first = new NFANode(NFA_num_cnt++);
@@ -161,17 +151,6 @@ void NFAConstrctor::createNFA()
             top1->next->isEnd = 0;
             top2->next->isEnd = 0;
             second->isEnd = 1;
-            
-//            //处理初态
-//            if (top1->head->isStart==1) {
-//                top1->head->isStart=0;
-//                first->isStart = 1;
-//            }
-//            else if(top2->head->isStart==1){
-//                top2->head->isStart=0;
-//                first->isStart = 1;
-//            }
-            
         }
         else if(suffix_char == '-'){            //处理闭包
             NFAEdge *top1 = NFA_stk.top();   NFA_stk.pop();
@@ -180,17 +159,32 @@ void NFAConstrctor::createNFA()
             top2->next->e_closure_set.push_back(top1->head->num);
             top2->next = top1->next;
             NFA_stk.push(top2);
-            
+        }
+        else {
+            terminal_symbol.push_back(suffix_char);//放入终结符集合中
+            createSingleNFA();
         }
     }
     
     auto i = NFA_stk.top();      NFA_stk.pop();
-    cout<<"初态"<<i->head->num<<endl;     begin_state = i->head->num;
+    cout<<"NFA:"<<endl;
+    cout<<"初态"<<i->head->num;     begin_state = i->head->num;
     cout<<"终态"<<i->next->num<<endl;     end_state = i->next->num;
+    sort(terminal_symbol.begin(), terminal_symbol.end());
+    
+    auto new_end = unique(terminal_symbol.begin(), terminal_symbol.end());//"删除"相邻的重复元素
+    terminal_symbol.erase(new_end, terminal_symbol.end());//删除(真正的删除)重复的元素
 }
 void NFAConstrctor::output_NFA()
 {
     for (int i = 0; i < node_set.size(); ++i) {
-        cout<<node_set[i]->num<<'\t'<<node_set[i]->trans_char<<'\t'<<node_set[i]->next_num<<endl;
+        if (node_set[i]->trans_char != '#') {
+            cout<<node_set[i]->num<<"-->"<<node_set[i]->trans_char<<"-->"<<node_set[i]->next_num<<'\t';
+        }
+        
+        for (int j = 0; j < node_set[i]->e_closure_set.size(); ++j){
+            cout<<node_set[i]->num<<"-->"<<"#"<<"-->"<<node_set[i]->e_closure_set[j]<<'\t';
+        }
+        cout<<endl;
     }
 }
