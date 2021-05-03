@@ -53,7 +53,7 @@ void DFAConstructor::construction()
     
     set<int> temp;  temp.insert(begin_state);//放入初态
     set<int> first = e_closure(temp);           //第一个初态做一个e闭包
-    q.push(first);
+    q.push(first);//扔进队列中
     set<int> t;
     while (!q.empty()) {
         set<int> t = q.front(); q.pop();
@@ -116,25 +116,15 @@ void DFAConstructor::output()//输出NFA集合的转换，也存好了对应DFA�
         cout<<endl;
     }
     
-//    for (int i = 0; i < NFA_set.size(); ++i) {
-//        if (NFA_set[i]->isEnd == 1) {
-//            cout<<i<<"是终态"<<endl;
+
+//    //改成new_DFA
+//    for (auto it = new_DFA.begin(); it != new_DFA.end(); it++) {
+//        cout<< it->second<<'\t';
+//        set<int> t = it->first;                             //输出新下标
+//        for (auto it2 = t.begin(); it2 != t.end(); ++it2) {//输出源子集下标
+//            cout<<*it2<<' ';
 //        }
+//        cout<<endl;
 //    }
-    
-//    for (int i = 0; i < NFA_set.size(); ++i) {
-//        if (NFA_set[i]->isStart == 1) {
-//            cout<<i<<"是初态"<<endl;
-//        }
-//    }
-    //改成new_DFA
-    for (auto it = new_DFA.begin(); it != new_DFA.end(); it++) {
-        cout<< it->second<<'\t';
-        set<int> t = it->first;                             //输出新下标
-        for (auto it2 = t.begin(); it2 != t.end(); ++it2) {//输出源子集下标
-            cout<<*it2<<' ';
-        }
-        cout<<endl;
-    }
     
 }
