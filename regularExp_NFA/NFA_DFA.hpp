@@ -26,7 +26,7 @@ class DFAConstructor
     map<set<int>, int> dfa_set;  //用于标记DFA，防止集合重复
     vector<char> terminal_symbol;   //终态符
     
-    
+    map<set<int>, int> new_DFA;//重新命名后的dfa集合
     vector<vector<int>> dfa_matrix;
     vector<char> dfa_trans;
 public:

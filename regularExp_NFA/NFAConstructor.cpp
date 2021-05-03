@@ -113,10 +113,6 @@ void NFAConstrctor::createSingleNFA()//遇到符号建立单个NFA
     NFAEdge *newEdge = new NFAEdge(first, second);
     NFA_stk.push(newEdge);
     
-    if (start == 0){
-        first->isStart = 1;
-        start = 1;
-    }
 }
 void NFAConstrctor::createNFA()
 {
@@ -142,11 +138,11 @@ void NFAConstrctor::createNFA()
             //处理终态
             second->isEnd = 1;
             top->next->isEnd = 0;
-            //处理初态
-            if (top->head->isStart == 1) {
-                first->isStart = 1;
-                top->head->isStart = 0;
-            }
+//            //处理初态
+//            if (top->head->isStart == 1) {
+//                first->isStart = 1;
+//                top->head->isStart = 0;
+//            }
         }
         else if(suffix_char == '|'){            //处理闭包
             NFANode *first = new NFANode(NFA_num_cnt++);
@@ -165,27 +161,32 @@ void NFAConstrctor::createNFA()
             top1->next->isEnd = 0;
             top2->next->isEnd = 0;
             second->isEnd = 1;
-            //处理初态
-            if (top1->head->isStart==1) {
-                top1->head->isStart=0;
-                first->isStart = 1;
-            }
-            else if(top2->head->isStart==1){
-                top2->head->isStart=0;
-                first->isStart = 1;
-            }
+            
+//            //处理初态
+//            if (top1->head->isStart==1) {
+//                top1->head->isStart=0;
+//                first->isStart = 1;
+//            }
+//            else if(top2->head->isStart==1){
+//                top2->head->isStart=0;
+//                first->isStart = 1;
+//            }
             
         }
         else if(suffix_char == '-'){            //处理闭包
             NFAEdge *top1 = NFA_stk.top();   NFA_stk.pop();
             NFAEdge *top2 = NFA_stk.top();   NFA_stk.pop();
-//            top1->next->e_closure_set.push_back(top2->head->num);
             top2->next->isEnd = 0;
             top2->next->e_closure_set.push_back(top1->head->num);
-            NFA_stk.push(top1);
+            top2->next = top1->next;
+            NFA_stk.push(top2);
             
         }
     }
+    
+    auto i = NFA_stk.top();      NFA_stk.pop();
+    cout<<"初态"<<i->head->num<<endl;
+    cout<<"终态"<<i->next->num<<endl;
 }
 void NFAConstrctor::output_NFA()
 {
