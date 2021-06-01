@@ -14,9 +14,9 @@ int main(int argc, const char * argv[]) {
 //    string a = "(a*-(b-c)-d)|(e-f*g)";
 
 //    string a = "a*-b-c";
-//    string a = "a*-b*-c*";
+    string a = "a*-b*-c*";
 //    string a = "(1|2*)-3*";
-    string a = "(a|b)*-a-b-b";
+//    string a = "(a|b)*-a-b-b";
     cout<<"原始正则表达式:"<<a<<endl;
     NFAConstrctor myNFAconstructor;
     myNFAconstructor.read(a);

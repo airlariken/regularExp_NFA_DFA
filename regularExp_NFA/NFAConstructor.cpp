@@ -9,7 +9,6 @@
 
 int NFAConstrctor::operatorPriority(const char& t)
 {
-
     if(t == '*')
     {
         return 3;
@@ -33,7 +32,6 @@ int NFAConstrctor::operatorPriority(const char& t)
         cerr<<"there is no such char!"<<endl;
         return -1;
     }
-
 }
 bool NFAConstrctor::getCh()
 {
@@ -155,10 +153,11 @@ void NFAConstrctor::createNFA()
         else if(suffix_char == '-'){            //处理闭包
             NFAEdge *top1 = NFA_stk.top();   NFA_stk.pop();
             NFAEdge *top2 = NFA_stk.top();   NFA_stk.pop();
-            top2->next->isEnd = 0;
             top2->next->e_closure_set.push_back(top1->head->num);
             top2->next = top1->next;
             NFA_stk.push(top2);
+            //处理终态
+            top2->next->isEnd = 0;
         }
         else {
             terminal_symbol.push_back(suffix_char);//放入终结符集合中

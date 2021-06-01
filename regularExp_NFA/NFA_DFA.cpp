@@ -71,7 +71,6 @@ void DFAConstructor::construction()
                q.push(tempt);
            }
            else{
-//               cout<<"有重复子集"<<endl;
                map<set<int>, int>::iterator it = new_DFA.find(tempt);
                set<int> x = it->first;
                DFAEdge temp(t,terminal_symbol[j],tempt);
@@ -79,7 +78,6 @@ void DFAConstructor::construction()
            }
         }
     }
-
 }
 void DFAConstructor::output()//输出NFA集合的转换，也存好了对应DFA的转换
 {
@@ -88,7 +86,6 @@ void DFAConstructor::output()//输出NFA集合的转换，也存好了对应DFA�
     for (int i = 0; i < terminal_symbol.size(); ++i){       //给字符转换矩阵横坐标赋值
         trans_to_index.insert(pair<char, int>(terminal_symbol[i], i));
     }
-    
     
     for (int i = 0; i< dfa.size(); ++i) {               //遍历所有dfa边
         auto fi = new_DFA.find(dfa[i].src_sta);
@@ -106,28 +103,25 @@ void DFAConstructor::output()//输出NFA集合的转换，也存好了对应DFA�
         else
             dfa[i].new_des_num = fi->second;
         
-        
-//        for(set<int>::iterator it = dfa[i].src_sta.begin(); it != dfa[i].src_sta.end(); ++it){
-////            auto it2 = new_DFA.find(dfa[i].src_sta);
-////            cout<<it2->second<<',';
-//            cout<<*it<<',';
-//        }
-
-//        cout<<'\t'<<dfa[i].trans<<'\t';
-        for(set<int>::iterator it = dfa[i].des_sta.begin(); it != dfa[i].des_sta.end(); ++it){
-//            it2 = new_DFA.find(dfa[i].des_sta);
-//            cout<<it2->second<<',';
-//            cout<<*it<<',';
+        for(set<int>::iterator it = dfa[i].src_sta.begin(); it != dfa[i].src_sta.end(); ++it){
             if (*it == end_state) {
                 dfa[i].is_end_state = 1;//意味着des_state是终态
+                auto find2 = new_DFA.find(dfa[i].src_sta);
+                terminal_index.insert(find2->second);
             }
         }
-        if (dfa[i].is_end_state == 1) //如果des_state是终态 输出方式改变一下
-            cout<<dfa[i].new_src_num<<"->'"<<dfa[i].trans<<"'->"<<"<"<<dfa[i].new_des_num<<">";
+
+
+        for (set<int>::iterator it = dfa[i].des_sta.begin(); it != dfa[i].des_sta.end(); ++it) {
+
+            if (*it == end_state) {
+                dfa[i].is_end_state = 1;//意味着des_state是终态
+                auto find2 = new_DFA.find(dfa[i].des_sta);
+                terminal_index.insert(find2->second);
+            }
+        }
         
-        else
-            cout<<dfa[i].new_src_num<<"->'"<<dfa[i].trans<<"'->"<<dfa[i].new_des_num;
-        cout<<endl;
+        cout << dfa[i].new_src_num << "->'" << dfa[i].trans << "'->" << dfa[i].new_des_num<< endl;
         
         auto find1 = trans_to_index.find(dfa[i].trans);
         DFAmatrix[dfa[i].new_src_num][find1->second] = dfa[i].new_des_num;
@@ -144,5 +138,8 @@ void DFAConstructor::output()//输出NFA集合的转换，也存好了对应DFA�
     
     
 
-    
+    cout<<"终态:";
+    for (auto it3 = terminal_index.begin(); it3 != terminal_index.end(); ++it3) {
+        cout<<*it3<<'\t';
+    }
 }
